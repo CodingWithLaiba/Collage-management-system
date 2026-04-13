@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
  
 use App\Http\Controllers\StudentController; 
+use App\Http\Controllers\TeacherController;
  
 // Student CRUD Routes (all 7 methods) 
 // Route::resource('students', StudentController::class); 
@@ -19,9 +20,23 @@ Route::put('/students/{student}', [StudentController::class, 'update'])->name('s
 Route::delete('/students/{student}', [StudentController::class, 'destroy'])->name('students.destroy'); 
 
 
-// Home route (your existing) 
-Route::get('/', function () { 
-return view('welcome'); 
-});
+Route::get('/teachers', [TeacherController::class, 'index'])->name('teachers.index'); 
+Route::get('/teachers/create', [TeacherController::class, 'create'])->name('teachers.create'); 
+Route::post('/teachers', [TeacherController::class, 'store'])->name('teachers.store'); 
+Route::get('/teachers/{teacher}', [TeacherController::class, 'show'])->name('teachers.show'); 
+Route::get('/teachers/{teacher}/edit', [TeacherController::class, 'edit'])->name('teachers.edit'); 
+Route::put('/teachers/{teacher}', [TeacherController::class, 'update'])->name('teachers.update'); 
+Route::delete('/teachers/{teacher}', [TeacherController::class, 'destroy'])->name('teachers.destroy');
 
+// Home route (your existing) 
+Route::get('/', function () {
+    return '
+        <h1>Welcome Page</h1>
+        <a href="/students">
+            <button style="padding:10px 20px; font-size:16px; cursor:pointer;">
+                Go to Collage Management System
+            </button>
+        </a>
+    ';
+});
 

@@ -2,8 +2,8 @@
     <div>
         <strong>🏫 School System</strong>
         <a href="/">Home</a>
-        <a href="#">Students</a>
-        <a href="#">Contact</a>
+        <a href="/students">Students</a>
+        <a href="/teachers">Teachers</a>
     </div>
 
     <div>

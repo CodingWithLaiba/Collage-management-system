@@ -6,7 +6,7 @@ use App\Models\Teacher;
 use App\Models\TeacherProfile; 
 use Illuminate\Http\Request; 
  
-class TeacherController extends Controller 
+class TeacherController extends Controller
 { 
     // Show all teachers (READ) 
     public function index() 
@@ -50,7 +50,7 @@ class TeacherController extends Controller
  
         // Create Profile 
         TeacherProfile::create([ 
-            'Teacher_id' => $teacher->id, 
+            'teacher_id' => $teacher->id, 
             'address' => $validated['address'] ?? null, 
             'father_name' => $validated['father_name'] ?? null, 
             'mother_name' => $validated['mother_name'] ?? null, 
@@ -66,14 +66,14 @@ class TeacherController extends Controller
     public function show(Teacher $teacher) 
     { 
         $teacher->load('profile'); 
-        return view('teachers.show', compact('Teacher')); 
+        return view('teachers.show', compact('teacher')); 
     } 
  
     // Show edit form 
     public function edit(Teacher $teacher) 
     { 
         $teacher->load('profile'); 
-        return view('teachers.edit', compact('Teacher')); 
+        return view('teachers.edit', compact('teacher')); 
     } 
  
     // Update Teacher (UPDATE) 
