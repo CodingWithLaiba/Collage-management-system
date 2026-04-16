@@ -1,9 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
-
- 
 use App\Http\Controllers\StudentController; 
 use App\Http\Controllers\TeacherController;
  
@@ -40,13 +37,6 @@ Route::delete('/teachers/{teacher}', [TeacherController::class, 'destroy'])->nam
 
 // Home route (your existing) 
 Route::get('/', function () {
-    return '
-        <h1>Welcome Page</h1>
-        <a href="/students">
-            <button style="padding:10px 20px; font-size:16px; cursor:pointer;">
-                Go to Collage Management System
-            </button>
-        </a>
-    ';
+   return view('welcome');
 });
 

@@ -1,5 +1,5 @@
-<div class="navbar">
-    <div>
+<div class="navbar" >
+    <div style=" display: flex; gap: 27px; align-items: center;">
         <strong>🏫 School System</strong>
         <a href="/">Home</a>
         <a href="/students">Students</a>
