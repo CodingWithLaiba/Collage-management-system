@@ -13,10 +13,10 @@ class Teacher extends Model
     ];
 
     // One-to-Many: A teacher has many courses
-    // public function courses(): HasMany
-    // {
-    //     return $this->hasMany(Course::class);
-    // }
+    public function courses(): HasMany
+    {
+        return $this->hasMany(Course::class);
+    }
 
     // Accessor: Get teacher's full info
     public function getFullInfoAttribute()
