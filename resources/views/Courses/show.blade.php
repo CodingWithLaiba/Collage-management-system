@@ -18,8 +18,7 @@
             </tr>
             <tr>
                 <td style="padding: 8px 0;"><strong>Course Name:</strong></td>
-                <td>{{ $course
->name }}</td>
+                <td>{{ $course->name }}</td>
             </tr>
             <tr>
                 <td style="padding: 8px 0;"><strong>Course Code:</strong></td>
@@ -33,8 +32,7 @@ $course->code }}</strong></td>
             </tr>
             <tr>
                 <td style="padding: 8px 0;"><strong>Duration:</strong></td>
-                <td>{{ $course
->duration_hours ?? 'N/A' }} hours</td>
+                <td>{{ $course->duration_hours ?? 'N/A' }} hours</td>
             </tr>
             <tr>
                 <td style="padding: 8px 0;"><strong>Status:</strong></td>
@@ -50,8 +48,7 @@ $course->code }}</strong></td>
             </tr>
             <tr>
                 <td style="padding: 8px 0;"><strong>Description:</strong></td>
-                <td>{{ $course
->description ?? 'No description' }}</td>
+                <td>{{ $course->description ?? 'No description' }}</td>
             </tr>
         </table>
     </div>
@@ -64,23 +61,19 @@ $course->code }}</strong></td>
         <table style="width: 100%;">
             <tr>
                 <td style="padding: 8px 0;"><strong>Teacher Name:</strong></td>
-                <td>{{ $course
->teacher->name }}</td>
+                <td>{{ $course->teacher->name }}</td>
             </tr>
             <tr>
                 <td style="padding: 8px 0;"><strong>Qualification:</strong></td>
-                <td>{{ $course
->teacher->qualification ?? 'N/A' }}</td>
+                <td>{{ $course->teacher->qualification ?? 'N/A' }}</td>
             </tr>
             <tr>
                 <td style="padding: 8px 0;"><strong>Specialization:</strong></td>
-                <td>{{ $course
->teacher->specialization ?? 'N/A' }}</td>
+                <td>{{ $course->teacher->specialization ?? 'N/A' }}</td>
             </tr>
             <tr>
                 <td style="padding: 8px 0;"><strong>Experience:</strong></td>
-                <td>{{ $course
->teacher->experience_years }} years</td>
+                <td>{{ $course->teacher->experience_years }} years</td>
             </tr>
         </table>
         @else
@@ -117,17 +110,17 @@ $course->code }}</strong></td>
                 <td>{{ $student->pivot->enrollment_date ?? '-' }}</td>
                 <td>
                     @if($student->pivot->status == 'enrolled')
-                        <span style="background: #27ae60; color: white; padding: 2px 8px; border-radius: 12px;">
-                            {{ ucfirst($student->pivot->status) }}
-                        </span>
+                    <span style="background: #27ae60; color: white; padding: 2px 8px; border-radius: 12px;">
+                        {{ ucfirst($student->pivot->status) }}
+                    </span>
                     @elseif($student->pivot->status == 'completed')
-                        <span style="background: #3498db; color: white; padding: 2px 8px; border-radius: 12px;">
-                            {{ ucfirst($student->pivot->status) }}
-                        </span>
+                    <span style="background: #3498db; color: white; padding: 2px 8px; border-radius: 12px;">
+                        {{ ucfirst($student->pivot->status) }}
+                    </span>
                     @else
-                        <span style="background: #e74c3c; color: white; padding: 2px 8px; border-radius: 12px;">
-                            {{ ucfirst($student->pivot->status) }}
-                        </span>
+                    <span style="background: #e74c3c; color: white; padding: 2px 8px; border-radius: 12px;">
+                        {{ ucfirst($student->pivot->status) }}
+                    </span>
                     @endif
                 </td>
                 <td>{{ $student->pivot->grade ?? 'Not graded' }}</td>
@@ -135,8 +128,7 @@ $course->code }}</strong></td>
             @endforeach
         </tbody>
     </table>
-    <p style="margin-top: 10px;"><strong>Total Enrolled:</strong> {{ $course->students
->count() }} students</p>
+    <p style="margin-top: 10px;"><strong>Total Enrolled:</strong> {{ $course->students->count() }} students</p>
     @else
     <p style="color: gray;">No students enrolled in this course yet.</p>
     @endif
