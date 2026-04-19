@@ -240,7 +240,7 @@
             <th>Qualification</th>
             <th>Specialization</th>
             <th>Experience</th>
-            <!-- <th>Courses</th> -->
+            <th>Courses</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -258,15 +258,15 @@
                     {{ $teacher->courses->count() }}
                 </span>
             </td>
-            <div class="action-buttons">
+            <td class="action-buttons">
                 <a href="{{ route('teachers.show', $teacher->id) }}" class="btn-view">View</a>
                 <a href="{{ route('teachers.edit', $teacher->id) }}" class="btn-edit">Edit</a>
                 <form action="{{ route('teachers.destroy', $teacher->id) }}" method="POST" style="display:inline;">
                     @csrf @method('DELETE')
                     <button type="submit" class="btn-delete" onclick="return confirm('Are you sure you want to delete this teacher?')">Delete</button>
                 </form>
-            </div>
             </td>
+
         </tr>
         @empty
         <tr>
