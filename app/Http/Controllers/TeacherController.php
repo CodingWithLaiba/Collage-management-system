@@ -84,20 +84,22 @@ class TeacherController extends Controller
     }
 
     // Delete teacher
-    // public function destroy(Teacher $teacher)
-    // {
-    //     // Check if teacher has any courses
-    //     if ($teacher->courses()->count() > 0) {
-    //         return redirect()->route('teachers.index')
-    //             ->with('error', 'Cannot delete! This teacher has ' . $teacher->courses()->count() . ' course(s). First delete or reassign courses.');
-    //     }
-    // simple teacher run kre not connect with course
     public function destroy(Teacher $teacher)
     {
-    $teacher->delete();
+        // Check if teacher has any courses
+        if ($teacher->courses()->count() > 0) {
+            return redirect()->route('teachers.index')
+                ->with('error', 'Cannot delete! This teacher has ' . $teacher->courses()->count() . ' course(s). First delete or reassign courses.');
+        }
 
-    return redirect()->route('teachers.index')
-        ->with('success', 'Teacher deleted successfully!');
+        
+    // simple teacher run kre not connect with course
+    // public function destroy(Teacher $teacher)
+    // {
+    // $teacher->delete();
+
+    // return redirect()->route('teachers.index')
+    //     ->with('success', 'Teacher deleted successfully!');
 
         
 
