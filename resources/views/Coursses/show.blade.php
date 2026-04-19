@@ -116,12 +116,19 @@ $course->code }}</strong></td>
                 <td>{{ $student->class ?? '-' }}</td>
                 <td>{{ $student->pivot->enrollment_date ?? '-' }}</td>
                 <td>
-                    <span style="background: @if($student->pivot->status == 'enrolled') #27ae60 
-                            @elseif($student->pivot->status == 'completed') #3498db 
-                            @else #e74c3c @endif;  
-                            color: white; padding: 2px 8px; border-radius: 12px;">
-                        {{ ucfirst($student->pivot->status) }}
-                    </span>
+                    @if($student->pivot->status == 'enrolled')
+                        <span style="background: #27ae60; color: white; padding: 2px 8px; border-radius: 12px;">
+                            {{ ucfirst($student->pivot->status) }}
+                        </span>
+                    @elseif($student->pivot->status == 'completed')
+                        <span style="background: #3498db; color: white; padding: 2px 8px; border-radius: 12px;">
+                            {{ ucfirst($student->pivot->status) }}
+                        </span>
+                    @else
+                        <span style="background: #e74c3c; color: white; padding: 2px 8px; border-radius: 12px;">
+                            {{ ucfirst($student->pivot->status) }}
+                        </span>
+                    @endif
                 </td>
                 <td>{{ $student->pivot->grade ?? 'Not graded' }}</td>
             </tr>
