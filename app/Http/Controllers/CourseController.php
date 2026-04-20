@@ -80,45 +80,64 @@ class CourseController extends Controller
 }
  
     // Update course in database 
-    public function update(Request $request, Course $course) 
-    { 
-        // Validation rules 
-        $validated = $request->validate([ 
-            'name' => 'required|string|max:255', 
-            'code' => 'required|string|max:50|unique:courses,code,' . $course->id, 
-            'description' => 'nullable|string', 
-            'credits' => 'required|integer|min:1|max:6', 
-            'duration_hours' => 'nullable|integer|min:1', 
-            'status' => 'required|in:active,inactive', 
-            'teacher_id' => 'nullable|exists:teachers,id', 
-            'student_ids' => 'nullable|array', 
-            'student_ids.*' => 'exists:students,id', 
-        ]); 
- 
-        // Update course 
-        $course->update($validated); 
- 
-        // Sync students (Many-to-Many) - this will add/remove as needed 
-        $course->students()->sync($request->student_ids ?? []); 
- 
-        return redirect()->route('courses.index') 
-            ->with('success', 'Course updated successfully!'); 
-    } 
+   public function update(Request $request, Course $course)
+{
+    //  Validate the incoming form data
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',      // Name is required
+        'code' => 'required|string|max:50|unique:courses,code,' . $course->id,
+        // ↑ IMPORTANT: unique EXCEPT current course's own code
+        // Without this, updating would fail because code already exists
+        
+        'description' => 'nullable|string',       // Optional field
+        'credits' => 'required|integer|min:1|max:6',
+        'duration_hours' => 'nullable|integer|min:1',
+        'status' => 'required|in:active,inactive',
+        'teacher_id' => 'nullable|exists:teachers,id',
+        'student_ids' => 'nullable|array',
+        'student_ids.*' => 'exists:students,id',  // Each student ID must exist
+    ]);
+
+    //  Update the course basic information
+    $course->update($validated);
+    // This updates: name, code, description, credits, duration_hours, status, teacher_id
+    
+    //  Sync students (Many-to-Many relationship)
+    $course->students()->sync($request->student_ids ?? []);
+    // sync() does THREE things automatically:
+    // - Adds new students that weren't enrolled before
+    // - Removes students that were unselected
+    // - Keeps existing ones that remain selected
+    // 
+    // Example: Before sync: enrolled [1,2,3]
+    //          After sync with [1,3,5]: 
+    //          - Student 2 is removed
+    //          - Student 5 is added
+    //          - Students 1 and 3 remain
+
+    // Line 4: Redirect back to courses list with success message
+    return redirect()->route('courses.index')
+        ->with('success', 'Course updated successfully!');
+}
  
     // Delete course 
-    public function destroy(Course $course) 
-    { 
-        // Check if course has enrolled students 
-        if ($course->students()->count() > 0) { 
-            return redirect()->route('courses.index') 
-                ->with('error', 'Cannot delete! This course has ' . $course->students()->count() . ' 
-enrolled student(s). First remove all students.'); 
-        } 
-         
-        $course->delete(); 
-        return redirect()->route('courses.index') 
-            ->with('success', 'Course deleted successfully!'); 
-    } 
+    public function destroy(Course $course)
+{
+    // Check if course has enrolled students
+    if ($course->students()->count() > 0) {
+        // If yes, don't delete - show error message
+        return redirect()->route('courses.index')
+            ->with('error', 'Cannot delete! This course has ' . 
+                   $course->students()->count() . ' enrolled student(s). First remove all students.');
+    }
+    
+    // If no students, delete the course
+    $course->delete();
+    
+    // Redirect with success message
+    return redirect()->route('courses.index')
+        ->with('success', 'Course deleted successfully!');
+}
      
     // Additional method: Show enrollment form for a course 
     public function enrollmentForm(Course $course) 
