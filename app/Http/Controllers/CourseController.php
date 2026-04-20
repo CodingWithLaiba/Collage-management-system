@@ -63,14 +63,21 @@ class CourseController extends Controller
     } 
  
     // Show form to edit course 
-    public function edit(Course $course) 
-    { 
-        $teachers = Teacher::all(); 
-        $students = Student::all(); 
-        $enrolledStudentIds = $course->students->pluck('id')->toArray(); 
-         
-        return view('courses.edit', compact('course', 'teachers', 'students', 'enrolledStudentIds')); 
-    } 
+   public function edit(Course $course)  // $course is automatically the Course with ID=5
+{
+    // Get all teachers from database for dropdown
+    $teachers = Teacher::all();
+    
+    // Get all students from database for multi-select
+    $students = Student::all();
+    
+    // Get IDs of students already enrolled in this course
+    $enrolledStudentIds = $course->students->pluck('id')->toArray();
+    // Example: [1, 3, 5] means students with ID 1,3,5 are enrolled
+    
+    // Pass data to the edit view
+    return view('courses.edit', compact('course', 'teachers', 'students', 'enrolledStudentIds'));
+}
  
     // Update course in database 
     public function update(Request $request, Course $course) 
