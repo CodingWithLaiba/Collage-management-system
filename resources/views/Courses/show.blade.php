@@ -4,6 +4,11 @@
 @section('page-title', 'Course Details: ' . $course->name)
 
 @section('content')
+<style>
+    td{
+        padding: 8px;;
+    }
+</style>
 
 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
 
