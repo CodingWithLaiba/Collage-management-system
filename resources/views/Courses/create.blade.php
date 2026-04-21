@@ -105,13 +105,13 @@ old('description') }}</textarea>
         </div>
     </div>
 
-    <div style="margin-top: 20px; text-align: center;">
+    <div style="margin-top: 20px; display: flex; align-items: center; justify-content: center;">
         <button type="submit"
             style="background: #27ae60; color: white; padding: 10px 30px; border: none; border-radius: 5px; cursor: pointer;">
             Save Course
         </button>
         <a href="{{ route('courses.index') }}"
-            style="background: #95a5a6; color: white; padding: 10px 30px; text-decoration: none; 
+            style="background: #95a5a6; color: white; padding: 5px 30px; text-decoration: none; 
 border-radius: 5px; margin-left: 10px;">
             Cancel
         </a>
