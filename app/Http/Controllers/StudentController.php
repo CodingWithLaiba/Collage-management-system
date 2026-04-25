@@ -12,7 +12,7 @@ class StudentController extends Controller
     // Check if user can edit/delete
     private function canModify()
     {
-        return Auth::check() && Auth::user()->role === 'admin';
+        return Auth::check() && Auth::user()->role=='admin';
     }
 
     // Display all students (Admin + Teacher can see)
