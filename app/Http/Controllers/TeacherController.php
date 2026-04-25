@@ -1,31 +1,54 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Teacher;
 
+use App\Models\Teacher;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TeacherController extends Controller
 {
-     // Display list of all teachers
+    /**
+     * Display a listing of teachers.
+     * ✅ Admin & Teacher both can view
+     */
     public function index()
     {
-        $teachers = Teacher::get();
-
-        // $teachers = Teacher::with('courses')->get();
+        // Check if user is logged in
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+        
+        $teachers = Teacher::with('courses')->get();
         return view('teachers.index', compact('teachers'));
     }
 
-    // Show form to create new teacher
+    /**
+     * Show form for creating new teacher.
+     * ✅ Admin only
+     */
     public function create()
     {
+        // Only admin can create
+        if (!Auth::check() || Auth::user()->role !== 'admin') {
+            abort(403, 'Only admin can add teachers.');
+        }
+        
         return view('teachers.create');
     }
 
-    // Store new teacher in database
+    /**
+     * Store a newly created teacher.
+     * ✅ Admin only
+     */
     public function store(Request $request)
     {
-        // Validation rules
+        // Only admin can store
+        if (!Auth::check() || Auth::user()->role !== 'admin') {
+            abort(403, 'Only admin can add teachers.');
+        }
+        
+        // Validation
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:teachers',
@@ -45,25 +68,47 @@ class TeacherController extends Controller
             ->with('success', 'Teacher created successfully!');
     }
 
-    // Show single teacher details
+    /**
+     * Display specified teacher.
+     * ✅ Admin & Teacher both can view
+     */
     public function show(Teacher $teacher)
     {
+        // Check if user is logged in
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
         
         $teacher->load('courses');
         return view('teachers.show', compact('teacher'));
-        return view('teachers.show', compact('teacher'));
     }
 
-    // Show form to edit teacher
+    /**
+     * Show form for editing teacher.
+     * ✅ Admin only
+     */
     public function edit(Teacher $teacher)
     {
+        // Only admin can edit
+        if (!Auth::check() || Auth::user()->role !== 'admin') {
+            abort(403, 'Only admin can edit teachers.');
+        }
+        
         return view('teachers.edit', compact('teacher'));
     }
 
-    // Update teacher in database
+    /**
+     * Update specified teacher.
+     * ✅ Admin only
+     */
     public function update(Request $request, Teacher $teacher)
     {
-        // Validation rules
+        // Only admin can update
+        if (!Auth::check() || Auth::user()->role !== 'admin') {
+            abort(403, 'Only admin can update teachers.');
+        }
+        
+        // Validation
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:teachers,email,' . $teacher->id,
@@ -83,26 +128,22 @@ class TeacherController extends Controller
             ->with('success', 'Teacher updated successfully!');
     }
 
-    // Delete teacher
+    /**
+     * Delete specified teacher.
+     * ✅ Admin only
+     */
     public function destroy(Teacher $teacher)
     {
+        // Only admin can delete
+        if (!Auth::check() || Auth::user()->role !== 'admin') {
+            abort(403, 'Only admin can delete teachers.');
+        }
+        
         // Check if teacher has any courses
         if ($teacher->courses()->count() > 0) {
             return redirect()->route('teachers.index')
                 ->with('error', 'Cannot delete! This teacher has ' . $teacher->courses()->count() . ' course(s). First delete or reassign courses.');
         }
-
-        
-    // simple teacher run kre not connect with course
-    // public function destroy(Teacher $teacher)
-    // {
-    // $teacher->delete();
-
-    // return redirect()->route('teachers.index')
-    //     ->with('success', 'Teacher deleted successfully!');
-
-        
-
         
         $teacher->delete();
         return redirect()->route('teachers.index')
