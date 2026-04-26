@@ -1,15 +1,28 @@
 <div class="navbar">
-    <div class="navbar-brand">
-        <div class="logo">🏫</div>
-        <span>College Management System</span>
+    <div>
+        <strong>🏫 School Management System</strong>
+        <a href="/">Home</a>
+        @auth
+            @if(auth()->user()->isAdmin())
+                <a href="{{ route('admin.dashboard') }}">Dashboard</a>
+            @elseif(auth()->user()->isTeacher())
+                <a href="{{ route('teacher.dashboard') }}">Dashboard</a>
+            @else
+                <a href="{{ route('student.dashboard') }}">Dashboard</a>
+            @endif
+        @endauth
     </div>
     
-    <div class="navbar-nav">
-        <a href="/" class="{{ request()->is('/') ? 'active' : '' }}">Home</a>
-        <a href="/students" class="{{ request()->is('students*') ? 'active' : '' }}">Students</a>
-        <a href="/teachers" class="{{ request()->is('teachers*') ? 'active' : '' }}">Teachers</a>
-        <a href="/courses" class="{{ request()->is('courses*') ? 'active' : '' }}">Courses</a>
-        <a href="#">Logout</a>
+    <div>
+        @auth
+            <span style="margin-right: 15px;">👋 {{ auth()->user()->name }} ({{ ucfirst(auth()->user()->role) }})</span>
+            <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                @csrf
+                <button type="submit" style="background: none; border: none; color: white; cursor: pointer;">Logout</button>
+            </form>
+        @else
+            <a href="{{ route('login') }}">Login</a>
+            <a href="{{ route('register') }}">Register</a>
+        @endauth
     </div>
 </div>
-
